@@ -236,7 +236,7 @@ async function createSSLCertificate(domain, email) {
             return;
         }
         
-        console.log(`🔐 ${domain} için self-signed SSL sertifikası oluşturuluyor...`);
+        console.log(`${domain} için self-signed SSL sertifikası oluşturuluyor...`);
         
  
         const sslDir = path.join(__dirname, 'ssl');
@@ -354,8 +354,8 @@ function startServerWithSelfSigned(domain, keyPath, certPath) {
     };
     
     https.createServer(sslOptions, app).listen(PORT, '0.0.0.0', () => {
-        console.log(`🔒 HTTPS sunucu https://${domain}:${PORT} adresinde çalışıyor`);
-        console.log('📱 WhatsApp bağlantısı kuruluyor...');
+        console.log(`HTTPS sunucu https://${domain}:${PORT} adresinde çalışıyor`);
+        console.log('WhatsApp bağlantısı kuruluyor...');
         
         // WhatsApp bağlantısını başlat
         setTimeout(() => {
@@ -422,13 +422,13 @@ async function initializeServer() {
     await askDomainName();
     
     if (domainName) {
-        console.log(`📋 Domain: ${domainName}`);
+        console.log(`Domain: ${domainName}`);
         
 
         await askEmailAddress();
         
         if (emailAddress) {
-            console.log(`📧 E-posta: ${emailAddress}`);
+            console.log(`E-posta: ${emailAddress}`);
             await createSSLCertificate(domainName, emailAddress);
         } else {
             console.log('E-posta adresi girilmedi');
