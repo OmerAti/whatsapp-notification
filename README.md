@@ -13,7 +13,9 @@ Modern WhatsApp mesajlaşma sistemi - Node.js API ile PHP modülü entegrasyonu.
 **UTF-8 Desteği** - Türkçe karakterler dahil
 
 Sistem Gereksinimleri
-
+-
+Windows 2019 server veya üstü
+-
 ### Node.js Sunucu
 - **Node.js**: 18.0.0 veya üzeri
 - **RAM**: Minimum 4GB
