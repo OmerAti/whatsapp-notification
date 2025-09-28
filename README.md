@@ -43,20 +43,53 @@ npm install
 npm start
 ```
 
-### 2. SSL Sertifikası
+### 2. Windows Firewall - 443 Port Açma
+
+Windows'ta 443 portunu açmak için:
+
+```cmd
+# Yönetici olarak cmd açın
+# Gelen bağlantılar için 443 portunu açın
+netsh advfirewall firewall add rule name="WhatsApp API HTTPS" dir=in action=allow protocol=TCP localport=443
+
+# Giden bağlantılar için 443 portunu açın
+netsh advfirewall firewall add rule name="WhatsApp API HTTPS Out" dir=out action=allow protocol=TCP localport=443
+
+# Port durumunu kontrol edin
+netstat -an | findstr :443
+```
+
+### 3. Cloudflare Domain Ekleme
+
+1. **Cloudflare hesabınıza giriş yapın**
+2. **"Add a Site" butonuna tıklayın**
+3. **Domain adınızı girin** (örn: `api.example.com`)
+4. **Plan seçin** (Free plan yeterli)
+5. **DNS kayıtlarını kontrol edin**
+6. **A kaydı ekleyin:**
+   - **Type**: A
+   - **Name**: api (veya @)
+   - **IPv4 address**: Sunucu IP adresiniz
+   - **Proxy status**: 🟠 Proxied (turuncu bulut)
+7. **SSL/TLS ayarları:**
+   - **Overview → SSL/TLS**
+   - **Encryption mode**: "Full (strict)" seçin
+8. **Always Use HTTPS**: Aktif edin
+
+### 4. SSL Sertifikası
 
 Sunucu ilk çalıştırıldığında:
 1. Domain adınızı girin (örn: `api.example.com`)
 2. E-posta adresinizi girin
 3. OpenSSL sertifikası alınacak
 
-### 3. WhatsApp Bağlantısı
+### 5. WhatsApp Bağlantısı
 
 1. Terminal'de görünen QR kodu tarayın
 2. WhatsApp Web ile bağlantı kurulacak
 3. "WhatsApp bağlantısı kuruluyor..." mesajını bekleyin
 
-### 4. PHP Modülü Entegrasyonu
+### 6. PHP Modülü Entegrasyonu
 
 ```php
 // WhatsAppBildirim.php örneği
@@ -246,14 +279,40 @@ public function notifyHook($params) {
 
 ## Sorun Giderme
 
-### WhatsApp Bağlantı Sorunları
+### Windows Firewall Sorunları
+
+```cmd
+# Firewall durumunu kontrol edin
+netsh advfirewall show allprofiles
+
+# 443 portunu manuel açmak için
+netsh advfirewall firewall add rule name="WhatsApp API" dir=in action=allow protocol=TCP localport=443
+
+# Windows Defender Firewall'u geçici olarak kapatmak için (önerilmez)
+netsh advfirewall set allprofiles state off
+```
+
+### Cloudflare Sorunları
 
 ```bash
+# DNS propagasyon kontrolü
+nslookup api.domainadi.com
+
+# Cloudflare proxy durumu kontrolü
+curl -I https://api.domainadi.com
+
+# Origin sunucuya direkt bağlantı testi
+curl -I https://sunucu-ip-adresi:443
+```
+
+### WhatsApp Bağlantı Sorunları
+
+```cmd
 # Session dosyalarını temizle
 rmdir /s /q .wwebjs_auth
 rmdir /s /q .wwebjs_cache
 
-Sunucuyu yeniden başlat
+# Sunucuyu yeniden başlat
 npm start
 ```
 
