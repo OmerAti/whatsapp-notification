@@ -236,7 +236,7 @@ Sistem otomatik olarak tüm formatları destekler:
 
 ```php
 $whatsapp = new WhatsAppBildirim();
-$success = $whatsapp->sendMessage("905079808857", "Merhaba! Test mesajı.");
+$success = $whatsapp->sendMessage("905354177323", "Merhaba! Test mesajı.");
 
 if ($success) {
     echo "Mesaj gönderildi!";
